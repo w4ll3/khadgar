@@ -15,7 +15,7 @@ public class Khadgar {
 	static Processor CPU = new Processor();
 	static StationBank stationBank = new StationBank();
 
-	static AtomicInteger lineCounter = new AtomicInteger(0);
+	static AtomicInteger ic = new AtomicInteger(0);
 	static Queue<String> program = new LinkedList<>();
 	static AtomicInteger pc = new AtomicInteger(0);
 	private boolean stalled;
@@ -27,17 +27,19 @@ public class Khadgar {
 			inputFile.forEachOrdered(
 					s -> {
 						program.add(s);
-						lineCounter.getAndIncrement();
+						ic.getAndIncrement();
 					}
 			);
 
-			lineCounter.getAndDecrement();
-			lineCounter.getAndDecrement();
-			lineCounter.getAndDecrement();
+			ic.getAndDecrement();
+			ic.getAndDecrement();
+			ic.getAndDecrement();
 
 		}
-		for (String i : program) {
 
+		CPU.functionalUnits.init();
+		
+		for (String i : program) {
 			if (!i.equals("")) {
 				Pattern opPattern = Pattern.compile("\\w+");
 				Pattern regPattern = Pattern.compile("\\d+");
@@ -48,6 +50,7 @@ public class Khadgar {
 				matcher = regPattern.matcher(i);
 				while (matcher.find())
 					operation.add(matcher.group());
+				memory.instructions.add(operation);
 			}
 		}
 

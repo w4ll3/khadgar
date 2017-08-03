@@ -1,6 +1,7 @@
 public class ReserveStation {
 
-	String op, qj, qk, vj, vk, a, id;
+	int id;
+	String op, qj, qk, vj, vk, a;
 	boolean busy = false;
 
 	public String getOp() {
